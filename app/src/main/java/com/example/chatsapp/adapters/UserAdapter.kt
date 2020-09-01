@@ -1,12 +1,18 @@
 package com.example.chatsapp.adapters
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chatsapp.MainActivity
+import com.example.chatsapp.MessagesActivity
 import com.example.chatsapp.R
 import com.example.chatsapp.model.Users
 import com.squareup.picasso.Picasso
@@ -42,6 +48,24 @@ class UserAdapter(mContext: Context,
         var user: Users = mUsersList[position]
         holder.userNameText.text = user!!.getUsername()
         Picasso.get().load(user.getProfile()).placeholder(R.drawable.blank_profile).into(holder.profileImageView)
+
+        holder.itemView.setOnClickListener{
+            val options = arrayOf<CharSequence>("SendMessage","Visit Profile")
+            val builder: AlertDialog.Builder = AlertDialog.Builder(mContext)
+            builder.setTitle("What do u want?")
+            builder.setItems(options, DialogInterface.OnClickListener{ dialog, position ->
+
+                if (position == 0) {
+                    val intent = Intent(mContext,MessagesActivity::class.java)
+                    intent.putExtra("visit_id",user.getUID())
+                    mContext.startActivity(intent)
+                }
+                if (position == 1) {
+
+                }
+
+            })
+        }
     }
 
 
